@@ -3,6 +3,7 @@ import { AddShoppingCartRounded } from "@material-ui/icons";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { StyledButton, Wrapper } from "./App.styles";
+import Cart from "./components/cart/cart";
 
 //Components
 import Item from "./components/item/item";
@@ -33,7 +34,8 @@ function App() {
   
   console.log(data);
   
-  const getTotalItems = (items: CartItemType[]) => null;
+  const getTotalItems = (items: CartItemType[]) => 
+    items.reduce((ack:number, item) => ack + item.amount, 0)
 
   const handleAddToCart = ( clickedItem: CartItemType) => null;
 
@@ -45,7 +47,11 @@ function App() {
   return (
     <Wrapper>
       <Drawer anchor="right" open={cartOpen} onClose={() => setcartOpen(false)}>
-        Cart goes here
+        <Cart 
+          cartItems={cartItems} 
+          addToCart={handleAddToCart} 
+          removeFromCart={removeFromCart}>
+        </Cart>
       </Drawer>
       <StyledButton onClick={() => setcartOpen(true)}>
         <Badge badgeContent={getTotalItems(cartItems)} color="error">
